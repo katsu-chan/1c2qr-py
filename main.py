@@ -28,19 +28,21 @@ docdate = doc.find(ns+"Дата").text
 docdate = datetime.strptime(docdate, "%Y-%m-%d").strftime("%d.%m.%Y")
 
 sName = cAs.find(ns+"ОфициальноеНаименование").text
+sINN = cAs.find(ns+"ИНН").text
+sKPP = cAs.find(ns+"КПП").text
+
 sAcc = cAs.find(ns+"РасчетныйСчет")
 sPAcc = sAcc.find(ns+"НомерСчета").text
+
 sBank = sAcc.find(ns+"Банк")
 sBankName = sBank.find(ns+"Наименование").text
 sBIC = sBank.find(ns+"БИК").text
 sCAcc = sBank.find(ns+"СчетКорреспондентский").text
+
 total = int(float(doc.find(ns+"Сумма").text)*100)
 if doc.find(ns+"Валюта").text != "643":
     print("unknown cur")
-#purpose = doc.find
-sINN = cAs.find(ns+"ИНН").text
-sKPP = cAs.find(ns+"КПП").text
-#exit()
+    
 purpose = f"Оплата по счету № {docno} от {docdate}."
 
 code = f"ST00012|Name={sName}|PersonalAcc={sPAcc}|BankName={sBankName}|BIC={sBIC}|CorrespAcc={sCAcc}|Sum={total}|Purpose={purpose}|PayeeINN={sINN}|KPP={sKPP}"
