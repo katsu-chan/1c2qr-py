@@ -1,5 +1,6 @@
 import sys
 
+from datetime import datetime
 import xml.etree.ElementTree as ET
 
 ns = "{urn:1C.ru:commerceml_2}"
@@ -22,6 +23,9 @@ else:
 #print("b", cAb.find(ns+"ИНН").text)
 #print("s", cAs.find(ns+"ИНН").text)
 
+docno = doc.find(ns+"Номер").text
+docdate = doc.find(ns+"Дата").text
+docdate = datetime.strptime(docdate, "%Y-%m-%d").strftime("%d.%m.%Y")
 
 sName = cAs.find(ns+"ОфициальноеНаименование").text
 sAcc = cAs.find(ns+"РасчетныйСчет")
@@ -37,8 +41,9 @@ if doc.find(ns+"Валюта").text != "643":
 sINN = cAs.find(ns+"ИНН").text
 sKPP = cAs.find(ns+"КПП").text
 #exit()
+purpose = f"Оплата по счету № {docno} от {docdate}."
 
-code = f"ST00012|Name={sName}|PersonalAcc={sPAcc}|BankName={sBankName}|BIC={sBIC}|CorrespAcc={sCAcc}|Sum={total}|PayeeINN={sINN}|KPP={sKPP}"
+code = f"ST00012|Name={sName}|PersonalAcc={sPAcc}|BankName={sBankName}|BIC={sBIC}|CorrespAcc={sCAcc}|Sum={total}|Purpose={purpose}|PayeeINN={sINN}|KPP={sKPP}"
 print(code)
 
 import qrcode
