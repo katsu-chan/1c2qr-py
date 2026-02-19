@@ -1,9 +1,10 @@
+import sys
 
 import xml.etree.ElementTree as ET
 
 ns = "{urn:1C.ru:commerceml_2}"
 
-tree = ET.parse("/tmp/sch")
+tree = ET.parse(sys.argv[1])
 root = tree.getroot()
 doc = root[0]
 cAs = doc.find(ns+"Контрагенты")
